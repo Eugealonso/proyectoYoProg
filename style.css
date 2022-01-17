@@ -1,0 +1,19 @@
+
+  a, a:visited, a:hover, a:active {
+    color: inherit;
+  }
+  
+ a:hover {
+    color: rgb(94, 91, 91);
+    background-color: transparent;
+    text-decoration: underline;
+  }
+
+  .animacion:hover {
+    display: inline-block;
+    margin: 0 0.5rem;
+  
+    animation: bounceIn; /* referring directly to the animation's @keyframe declaration */
+    animation-duration: 2s; /* don't forget to set a duration! */
+  }
+  
