@@ -4,7 +4,7 @@
   }
   
  a:hover {
-    color: rgb(94, 91, 91);
+    color: rgb(161, 154, 154);
     background-color: transparent;
     text-decoration: underline;
   }
@@ -20,6 +20,60 @@
     animation-iteration-count: infinite;
 
   }
+
+
+  .carousel-item {
+    width:100%;
+    max-height: 400px !important;
+  }
+
+  .carousel-inner {
+    border-top: 1px;
+    border-left: 1px;
+    border-right: 1px;
+    border-bottom: 1px;
+    border-color: rgb(0, 0, 0);
+    border-style: solid;
+    border-radius: 4px;
+  }
+
+  .circle {
+  width: 200px;
+  margin: 6px 6px 20px;
+  display: inline-block;
+  position: relative;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.circle canvas {
+  vertical-align: top;
+  width: 200px !important;
+}
+
+.circle strong {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  line-height: 40px;
+  font-size: 30px;
+  color: black;
+}
+
+.circle strong i {
+  font-style: normal;
+  font-size: 0.6em;
+  font-weight: normal;
+}
+
+.circle span {
+  display: block;
+  color: rgb(77, 155, 88);
+  margin-top: 12px;
+}
+
 
 
   

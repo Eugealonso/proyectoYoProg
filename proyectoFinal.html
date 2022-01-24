@@ -5,11 +5,14 @@
   <meta charset="UTF-8">
   <title>Proyecto final Arg Programa</title>
   <meta content="author" content="francesc ricart">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
   <script src="https://kit.fontawesome.com/7be91654c0.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
   <link rel="stylesheet" href="style.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="progressCircle.js"></script>
 </head>
 <body>
 
@@ -73,7 +76,7 @@
     <div class="row">
       <div class="col-md-12">
         <div class="card border">
-          <img src="https://picsum.photos/200" width="100" height="200" class="card-img-top" alt="imagenCualquiera">
+          <img src="imagenFondo.jpg" width="100" height="300" class="card-img-top" alt="imagenCualquiera">
           <div class="card-body">
             <div class="row">
               <div class="col-md-4">
@@ -113,7 +116,7 @@
     </div>
 
      <!--Trabajo y experiencia card-->
-      <div class="row">
+      <div class="row mb-2">
         <div class="col-md-12">
           <div class="card">
             <div class="card-body">
@@ -184,9 +187,142 @@
         </div>
       </div>
 
+      <!-- Carrusel con skills-->
+      <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          </div>
+          <div class="carousel-inner">
+            <div class="carousel-item active" data-bs-interval="10000">
+              <img src="fondoCarrusel.jpg" class="d-block w-100" alt="fondo Carrusel">
+              <div class="carousel-caption d-none d-md-block">
+                <div class="container">
+                  <h2>Hard Skills</h2>
+                <div class="row text-center">                      
+                  <div class="col-sm-4">
+                      <div class="progressbar">
+                          <div class="second circle" data-percent="35">
+                            <strong></strong>
+                            <span>HTML</span>
+                          </div>
+                          </div>
+                  </div>
+                  
+                  <div class="col-sm-4">
+                      <div class="progressbar">
+                          <div class="second circle" data-percent="25">
+                            <strong></strong>
+                            <span>CSS</span>
+                          </div>
+                          </div>
+                  </div>
+                  
+                  <div class="col-sm-4">
+                      <div class="progressbar">
+                          <div class="second circle" data-percent="10">
+                            <strong></strong>
+                            <span>JavaScript</span>
+                          </div>
+                        </div>
+                  </div>                   
+                </div>
+              </div>
+              
+              </div>
+            </div>
+            <div class="carousel-item" data-bs-interval="2000">
+              <img src="fondoCarrusel.jpg" class="d-block w-100" alt="fondo Carrusel">
+              <div class="carousel-caption d-none d-md-block">
+                <div class="container">
+                  <h2>Soft Skills</h2>
+                <div class="row text-center">                       
+                  <div class="col-sm-4">
+                      <div class="progressbar">
+                          <div class="second circle" data-percent="90">
+                            <strong></strong>
+                            <span>Trabajo en Equipo</span>
+                          </div>
+                          </div>
+                  </div>
+                  
+                  <div class="col-sm-4">
+                      <div class="progressbar">
+                          <div class="second circle" data-percent="50">
+                            <strong></strong>
+                            <span>Creatividad</span>
+                          </div>
+                          </div>
+                  </div>
+                  
+                  <div class="col-sm-4">
+                      <div class="progressbar">
+                          <div class="second circle" data-percent="85">
+                            <strong></strong>
+                            <span>Interés en Aprender</span>
+                          </div>
+                        </div>
+                  </div>                   
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
+
+         <!--Proyectos card-->
+         <div class="row mt-2">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <h5 class="card-title fw-bold">Proyectos</h5>
+                  </div>
+                  <div class="col-md-6">
+                    <i class="fas fa-plus float-end"></i>
+                  </div>
+                </div>
+                  <div class="row">
+                  <div class="col-md-6">
+                    <p class="card-text text-decoration-underline">Proyecto Final Argentina programa</p>
+                    <h6 class="card-subtitle mb-2 text-muted">Proyecto que se enfoca en hacer portfolio personal.</h6>
+                  </div>
+                  <div class="col-md-6">
+                    <i class="fas fa-trash float-end ps-2" style="color:#941616;"></i>
+                    <i class="fas fa-user-edit ms-auto float-end"></i>
+              </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <p class="card-text text-decoration-underline">Proyecto tetris en JS</p>
+                        <h6 class="card-subtitle mb-2 text-muted">Proyecto que se enfoca en realizar un Tetris utilizando únicamente JavaScript</h6>
+                        <i class="fas fa-trash float-end ps-2" style="color:#941616;"></i>
+                        <i class="fas fa-user-edit float-end"></i>
+                      </div>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-
+    <script src="https://rawgit.com/kottenator/jquery-circle-progress/1.2.2/dist/circle-progress.js"></script>
   </body>
 
 </html>
