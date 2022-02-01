@@ -10,8 +10,8 @@ $(document).ready(function ($) {
                 $(this).find('.circle').circleProgress({
                     // startAngle: -Math.PI / 2,
                     value: percent / 100,
-                    size : 400,
-                    thickness: 15,
+                    size : 200,
+                    thickness: 10,
                     fill: {
                         color: '#158c1f'
                     }
