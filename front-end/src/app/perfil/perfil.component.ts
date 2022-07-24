@@ -1,10 +1,13 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { HabilidadService } from '../habilidad.service';
+import { Habilidad } from '../modelo/habilidad';
 import { ItemSeccion } from '../modelo/itemSeccion';
 import { Login } from '../modelo/login';
 import { Seccion } from '../modelo/seccion';
 import { Usuario } from '../modelo/usuario';
 import { SeccionService } from '../seccion.service';
 import { UsuarioService } from '../usuario.service';
+
 
 @Component({
   selector: 'app-perfil',
@@ -17,6 +20,9 @@ export class PerfilComponent implements OnInit {
   @ViewChild('closeEliminarSeccionBtn') closeEliminarSeccionBtn: ElementRef;
   @ViewChild('closeItemSeccionBtn') closeItemSeccionBtn: ElementRef;
   @ViewChild('closeEliminarItemBtn') closeEliminarItemBtn: ElementRef;
+  @ViewChild('closeHabilidadBtn') closeHabilidadBtn: ElementRef;
+  @ViewChild('closeEliminarHabilidadBtn') closeEliminarHabilidadBtn: ElementRef;
+  @ViewChild('closePerfilBtn') closePerfilBtn: ElementRef;
 
   public usuario: string;
   public pass: string;
@@ -29,15 +35,23 @@ export class PerfilComponent implements OnInit {
   public itemSeccion: ItemSeccion = new ItemSeccion();
   public itemAEliminar: ItemSeccion = new ItemSeccion();
   public modoEdicionItemSeccion: boolean = false;
+  public habilidadesHard: Habilidad[];
+  public habilidadesSoft: Habilidad[];
+  public habilidadAEliminar: Habilidad = new Habilidad();
+  public habilidad: Habilidad = new Habilidad();
+  public usuarioAModificar: Usuario = new Usuario();
 
-  constructor(private usuarioService: UsuarioService, private seccionService: SeccionService) {
+
+  constructor(private usuarioService: UsuarioService, private seccionService: SeccionService, private habilidadService: HabilidadService) {
     this.usuario = "";
     this.pass = "";
     this.seccion = new Seccion();
+    this.habilidad = new Habilidad();
    }
 
   ngOnInit(): void {
     this.refrescarSecciones();
+    this.refrescarHabilidades();
   }
 
   loginEnviar(): void{
@@ -118,6 +132,46 @@ export class PerfilComponent implements OnInit {
     this.seccion = seccion;
     this.itemSeccion = itemSeccion;
     console.log(this.itemSeccion);
+  }
+
+  refrescarHabilidades(): void {
+    this.habilidadService.listarHabilidades('Hard').subscribe(habilidades => {
+      this.habilidadesHard = habilidades;
+    });
+    this.habilidadService.listarHabilidades('Soft').subscribe(habilidades => {
+      this.habilidadesSoft = habilidades;
+    });
+  }
+
+  agregarHabilidad(): void {
+    this.habilidadService.agregarHabilidad(this.usuarioLogeado.idUsuario, this.habilidad).subscribe(habilidad => {
+      this.closeHabilidadBtn.nativeElement.click();
+      this.refrescarHabilidades();
+      this.habilidad = new Habilidad();
+    })
+  }
+
+  abrirEdicionHabilidad(habilidad: Habilidad): void {
+    this.habilidad = habilidad;
+  }
+
+  avisoEliminarHabilidad(habilidad: Habilidad): void {
+    this.habilidadAEliminar = habilidad;
+  }
+
+  eliminarHabilidad(): void {
+    this.habilidadService.eliminarHabilidad(this.habilidadAEliminar.idHabilidad).subscribe(() => {
+      this.closeEliminarHabilidadBtn.nativeElement.click();
+      this.refrescarHabilidades();
+    });
+  }
+
+  abrirFormularioHabilidad(tipo: string): void {
+    this.habilidad.tipo = tipo;
+  }
+
+  abrirFormularioPerfil(): void {
+    this.usuarioAModificar = JSON.parse(JSON.stringify(this.usuarioLogeado));
   }
 }
 

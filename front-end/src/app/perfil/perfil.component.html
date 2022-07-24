@@ -187,6 +187,110 @@
         </div>
       </div>
     </div>     
+
+    <!--Formulario Habilidad-->
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="habilidadModal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Añadir Habilidad {{habilidad.tipo}}</h5>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" #closeHabilidadBtn>
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="tituloHabilidad">Titulo</label>
+                <input #tituloHabilidad="ngModel" name="tituloHabilidad" type="text" class="form-control" id="tituloHabilidad" placeholder="Ingrese titulo de nueva habilidad" [(ngModel)]="habilidad.titulo" required>
+              </div>
+              <div *ngIf="tituloHabilidad.invalid && (tituloHabilidad.dirty || tituloHabilidad.touched)" class="alert alert-danger">
+                <div *ngIf="tituloHabilidad.errors?.['required']">
+                  Titulo requerido
+                </div>
+              </div>    
+              <div class="form-group">
+                <label for="porcentajeHabilidad">Porcentaje</label>
+                <input #porcentajeHabilidad="ngModel" name="porcentajeHabilidad" type="text" class="form-control" id="porcentajeHabilidad" placeholder="Ingrese porcentaje de la habilidad" [(ngModel)]="habilidad.porcentaje" (keyup.enter)="agregarHabilidad()" required>
+              </div>
+              <div *ngIf="porcentajeHabilidad.invalid && (porcentajeHabilidad.dirty || porcentajeHabilidad.touched)" class="alert alert-danger">
+                <div *ngIf="porcentajeHabilidad.errors?.['required']">
+                  Porcentaje requerido
+                </div>
+              </div>            
+            </form>
+          </div>   
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-dark" (click)="agregarHabilidad()">Enviar</button>
+          </div>         
+        </div>
+      </div>
+    </div>      
+
+    <!--Aviso eliminar Habilidad-->
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="habilidadAEliminarModal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Eliminar Habilidad</h5>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" #closeEliminarHabilidadBtn>
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Esta seguro que desea eliminar la habilidad {{habilidadAEliminar.titulo}}?
+          </div>   
+          <div class="modal-footer">
+            <button class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-dark" (click)="eliminarHabilidad()">Aceptar</button>
+          </div>         
+        </div>
+      </div>
+    </div>     
+
+    <!--Formulario perfil-->
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="perfilModal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Editar Perfil</h5>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" #closePerfilBtn>
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="presentacion">Presentacion</label>
+                <textarea #presentacion="ngModel" name="presentacion" class="form-control" id="presentacion" [(ngModel)]="usuarioAModificar.presentacion" required>
+                </textarea>
+              </div>
+              <div *ngIf="presentacion.invalid && (presentacion.dirty || presentacion.touched)" class="alert alert-danger">
+                <div *ngIf="presentacion.errors?.['required']">
+                  Presentacion requerida
+                </div>
+              </div>    
+              <div class="form-group">
+                <label for="descripcion">Descripcion</label>
+                <textarea #descripcion="ngModel" name="descripcion" class="form-control" id="descripcion" [(ngModel)]="usuarioAModificar.descripcion" required>
+                </textarea>
+              </div>
+              <div *ngIf="descripcion.invalid && (descripcion.dirty || descripcion.touched)" class="alert alert-danger">
+                <div *ngIf="descripcion.errors?.['required']">
+                  Descripcion requerida
+                </div>
+              </div>          
+            </form>
+          </div>   
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-dark" (click)="agregarHabilidad()">Enviar</button>
+          </div>         
+        </div>
+      </div>
+    </div>
     
     <!--Primer tarjeta-->
 
@@ -206,7 +310,7 @@
                 <p class="card-text" style="text-align:center">La Plata, Buenos Aires, Argentina</p>
               </div>
               <div class="col-md-4" *ngIf="estaLogeado">
-                <div class="row" style="margin-bottom: 1%;"><div class="col-md-12"><i class="fas fa-user-edit ms-auto float-end"></i></div></div>
+                <div class="row" style="margin-bottom: 1%;"><div class="col-md-12"><i class="fas fa-user-edit ms-auto float-end" style="cursor: pointer;" title="Editar perfil" data-bs-toggle="modal" data-bs-target="#perfilModal" (click)="abrirFormularioPerfil()"></i></div></div>
                 <div class="row"style="margin-bottom: 1%;"><div class="col-md-12"><button type="button" class="btn btn-outline-dark btn-sm float-end"  data-bs-toggle="modal" data-bs-target="#seccionModal">Añadir Sección</button></div></div>
               </div> 
             </div>                
@@ -283,76 +387,46 @@
                 <div class="container">
                   <h2>
                     Hard Skills
-                    <i title="Agregar skill" style="cursor: pointer" class="fas fa-plus ps-2" (click)="abrirFormularioItemSeccion(seccion)" data-bs-toggle="modal" data-bs-target="#itemSeccionModal"></i>
+                    <i title="Agregar skill" style="cursor: pointer" class="fas fa-plus ps-2" (click)="abrirFormularioHabilidad('Hard')" data-bs-toggle="modal" data-bs-target="#habilidadModal" *ngIf="estaLogeado && habilidadesHard.length < 3"></i>
                   </h2>
-                <div class="row text-center">                      
-                  <div class="col-sm-4">
-                      <div class="progressbar">
-                          <div class="second circle" data-percent="35">
-                            <strong></strong>
-                            <span>
-                              HTML
-                              <i style="cursor: pointer" class="fas fa-user-edit ps-2" data-bs-toggle="modal" data-bs-target="#seccionModal" (click)="abrirEdicionSeccion(seccion)"></i>
-                              <i class="fas fa-trash ps-2" style="color:#941616;cursor: pointer" data-bs-toggle="modal" data-bs-target="#seccionAEliminarModal" (click)="avisoEliminarSeccion(seccion)"></i>
-                            </span>
-                          </div>
-                          </div>
-                  </div>
-                  
-                  <div class="col-sm-4">
-                      <div class="progressbar">
-                          <div class="second circle" data-percent="25">
-                            <strong></strong>
-                            <span>CSS</span>
-                          </div>
-                          </div>
-                  </div>
-                  
-                  <div class="col-sm-4">
-                      <div class="progressbar">
-                          <div class="second circle" data-percent="10">
-                            <strong></strong>
-                            <span>JavaScript</span>
-                          </div>
+                  <div class="row text-center">                      
+                    <div class="col-sm-4" *ngFor="let habilidadHard of habilidadesHard">
+                        <div class="progressbar">
+                            <div class="second circle" attr.data-percent="{{habilidadHard.porcentaje}}">
+                              <strong></strong>
+                              <span>
+                                {{habilidadHard.titulo}}
+                                <i style="cursor: pointer" class="fas fa-user-edit ps-2" data-bs-toggle="modal" data-bs-target="#habilidadModal" (click)="abrirEdicionHabilidad(habilidadHard)" *ngIf="estaLogeado"></i>
+                                <i class="fas fa-trash ps-2" style="color:#941616;cursor: pointer" data-bs-toggle="modal" data-bs-target="#habilidadAEliminarModal" (click)="avisoEliminarHabilidad(habilidadHard)" *ngIf="estaLogeado"></i>
+                              </span>
+                            </div>
                         </div>
-                  </div>                   
+                    </div>           
+                  </div>
                 </div>
-              </div>
-              
               </div>
             </div>
             <div class="carousel-item" data-bs-interval="2000">
               <img src="./assets/imgs/fondoCarrusel.jpg" class="d-block w-100" alt="fondo Carrusel">
               <div class="carousel-caption d-none d-md-block">
                 <div class="container">
-                  <h2>Soft Skills</h2>
+                  <h2>
+                    Soft Skills
+                    <i title="Agregar skill" style="cursor: pointer" class="fas fa-plus ps-2" (click)="abrirFormularioHabilidad('Soft')" data-bs-toggle="modal" data-bs-target="#habilidadModal" *ngIf="estaLogeado && habilidadesSoft.length < 3"></i>
+                  </h2>
                 <div class="row text-center">                       
-                  <div class="col-sm-4">
-                      <div class="progressbar">
-                          <div class="second circle" data-percent="100">
-                            <strong></strong>
-                            <span>Trabajo en Equipo</span>
-                          </div>
-                          </div>
-                  </div>
-                  
-                  <div class="col-sm-4">
-                      <div class="progressbar">
-                          <div class="second circle" data-percent="50">
-                            <strong></strong>
-                            <span>Creatividad</span>
-                          </div>
-                          </div>
-                  </div>
-                  
-                  <div class="col-sm-4">
-                      <div class="progressbar">
-                          <div class="second circle" data-percent="85">
-                            <strong></strong>
-                            <span>Interés en Aprender</span>
-                          </div>
+                  <div class="col-sm-4" *ngFor="let habilidadSoft of habilidadesSoft">
+                    <div class="progressbar">
+                        <div class="second circle" attr.data-percent="{{habilidadSoft.porcentaje}}">
+                          <strong></strong>
+                          <span>
+                            {{habilidadSoft.titulo}}
+                            <i style="cursor: pointer" class="fas fa-user-edit ps-2" data-bs-toggle="modal" data-bs-target="#habilidadModal" (click)="abrirEdicionHabilidad(habilidadSoft)" *ngIf="estaLogeado"></i>
+                            <i class="fas fa-trash ps-2" style="color:#941616;cursor: pointer" data-bs-toggle="modal" data-bs-target="#habilidadAEliminarModal" (click)="avisoEliminarHabilidad(habilidadSoft)" *ngIf="estaLogeado"></i>
+                          </span>
                         </div>
-                  </div>                   
+                    </div>
+                  </div>    
                 </div>
               </div>
             </div>
@@ -367,7 +441,3 @@
           </button>
         </div>
       </div>
-
-
-
-
