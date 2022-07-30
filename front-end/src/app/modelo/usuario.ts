@@ -11,9 +11,9 @@ export class Usuario{
 
 	public nombreApellido: string;
 
-	public foto: Uint8Array;
+	public foto: string;
 
-	public fotoPortada: Uint8Array;
+	public fotoPortada: string;
 
 	public presentacion: string;
 
@@ -23,7 +23,7 @@ export class Usuario{
 
 	public habilidades: Habilidad[];
 
-    constructor(idUsuario?: number, mail?: string, pass?: string, nombreApellido?: string, foto?:Uint8Array, fotoPortada?: Uint8Array, presentacion?:string, descripcion?: string, secciones?: Seccion[], habilidades?: Habilidad[]){
+    constructor(idUsuario?: number, mail?: string, pass?: string, nombreApellido?: string, foto?:string, fotoPortada?: string, presentacion?:string, descripcion?: string, secciones?: Seccion[], habilidades?: Habilidad[]){
         this.idUsuario = idUsuario;
         this.mail = mail;
         this.pass = pass;

@@ -40,6 +40,11 @@ export class PerfilComponent implements OnInit {
   public habilidadAEliminar: Habilidad = new Habilidad();
   public habilidad: Habilidad = new Habilidad();
   public usuarioAModificar: Usuario = new Usuario();
+  public usuarioAMostrar: Usuario = new Usuario();
+  public errorArchivo: string = "¡La foto es muy pesada! Tiene que ser como maximo de 7MB.";
+  public errorArchivoPortada: string = "¡La foto es muy pesada! Tiene que ser como maximo de 7MB.";
+  public mostrarErrorArchivo: boolean = false;
+  public mostrarErrorArchivoPortada: boolean = false;
 
 
   constructor(private usuarioService: UsuarioService, private seccionService: SeccionService, private habilidadService: HabilidadService) {
@@ -52,6 +57,7 @@ export class PerfilComponent implements OnInit {
   ngOnInit(): void {
     this.refrescarSecciones();
     this.refrescarHabilidades();
+    this.obtenerUsuario();
   }
 
   loginEnviar(): void{
@@ -172,6 +178,58 @@ export class PerfilComponent implements OnInit {
 
   abrirFormularioPerfil(): void {
     this.usuarioAModificar = JSON.parse(JSON.stringify(this.usuarioLogeado));
+  }
+
+  obtenerUsuario(): void {
+    this.usuarioService.obtenerUsuario(1).subscribe(usuario => {
+      this.usuarioAMostrar = usuario;
+      //this.usuarioAMostrar.presentacion = this.usuarioAMostrar.presentacion.replace('\\n', '<br>');
+      console.log(this.usuarioAMostrar);
+    });
+  }
+
+  editarUsuario(): void {
+    console.log(this.usuarioAModificar);
+    this.usuarioService.editarUsuario(this.usuarioAModificar).subscribe(usuario => {
+      this.usuarioAMostrar = usuario;
+      this.mostrarErrorArchivo = false;
+      this.mostrarErrorArchivoPortada = false;
+    });
+  }
+
+  convertirImagen(event, tipo: string): void {
+    const file = event.target.files[0];
+    if(file.size > 7340032) {
+      if(tipo === "perfil") {
+        this.mostrarErrorArchivo = true;
+      }
+      if(tipo === "portada") {
+        this.mostrarErrorArchivoPortada = true;
+      }
+    } else {
+      const reader = new FileReader();
+      let result;
+  
+      if(tipo === "perfil") {
+        reader.addEventListener("load", this.procesarImagenCargada.bind(this, reader), false);
+      }
+
+      if(tipo === "portada") {
+        reader.addEventListener("load", this.procesarImagenPortadaCargada.bind(this, reader), false);
+      }
+
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    }
+  }
+
+  procesarImagenCargada(reader: FileReader): void {
+    this.usuarioAModificar.foto = reader.result.toString();
+  }
+
+  procesarImagenPortadaCargada(reader: FileReader): void {
+    this.usuarioAModificar.fotoPortada = reader.result.toString();
   }
 }
 

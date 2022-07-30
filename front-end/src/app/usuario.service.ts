@@ -17,4 +17,12 @@ export class UsuarioService {
   login(login:Login): Observable<Usuario>{
     return this.http.post<any>(environment.baseUrl + this.usuariosUrl + '/login', login);
   }
+
+  editarUsuario(usuario: Usuario): Observable<Usuario> {
+    return this.http.post<any>(environment.baseUrl + this.usuariosUrl + '/' + usuario.idUsuario + '/editar', usuario);
+  }
+
+  obtenerUsuario(idUsuario: number): Observable<Usuario> {
+    return this.http.get<any>(environment.baseUrl + this.usuariosUrl + '/' + idUsuario);
+  }
 }

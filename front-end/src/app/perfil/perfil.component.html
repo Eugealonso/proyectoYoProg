@@ -282,11 +282,25 @@
                 <div *ngIf="descripcion.errors?.['required']">
                   Descripcion requerida
                 </div>
-              </div>          
+              </div> 
+              <div class="form-group">
+                <label for="fotoPerfil">Foto de perfil</label>
+                <input #fotoPerfil="ngModel" name="fotoPerfil" type="file" class="form-control" id="fotoPerfil" [(ngModel)]="usuarioAModificar.foto" accept=".jpg,.png" (change)="convertirImagen($event, 'perfil')" required>
+              </div>         
+              <div *ngIf="mostrarErrorArchivo" class="alert alert-danger">
+                  {{errorArchivo}}
+              </div>  
+              <div class="form-group">
+                <label for="fotoPortada">Foto de portada</label>
+                <input #fotoPortada="ngModel" name="fotoPortada" type="file" class="form-control" id="fotoPortada" [(ngModel)]="usuarioAModificar.fotoPortada" accept=".jpg,.png" (change)="convertirImagen($event, 'portada')" required>
+              </div>         
+              <div *ngIf="mostrarErrorArchivoPortada" class="alert alert-danger">
+                  {{errorArchivoPortada}}
+              </div>  
             </form>
           </div>   
           <div class="modal-footer">
-            <button type="submit" class="btn btn-dark" (click)="agregarHabilidad()">Enviar</button>
+            <button type="submit" class="btn btn-dark" (click)="editarUsuario()">Enviar</button>
           </div>         
         </div>
       </div>
@@ -297,17 +311,15 @@
     <div class="row">
       <div class="col-md-12">
         <div class="card border">
-          <img src="assets/imgs/imagenFondo.jpg" width="100" height="300" class="card-img-top" alt="imagenCualquiera">
+          <img [src]="usuarioAMostrar.fotoPortada" width="100" height="300" class="card-img-top" alt="imagenCualquiera">
           <div class="card-body">
             <div class="row">
               <div class="col-md-4">
                 <h5 class="card-title fw-bold text-decoration-underline">María Eugenia Alonso</h5>
-                <img src="https://picsum.photos/205"  width="100" height="100" class="rounded-circle" alt="Cinque Terre">
+                <img [src]="usuarioAMostrar.foto"  width="100" height="100" class="rounded-circle" alt="Cinque Terre">
               </div>         
               <div class="col-md-4">
-                <p class="card-text" style="text-align:center">Licenciada y Profesora en Psicología</p>
-                <p class="card-text" style="text-align:center">Estudiante de Argentina Programa</p>
-                <p class="card-text" style="text-align:center">La Plata, Buenos Aires, Argentina</p>
+                <p class="card-text" style="text-align:center; white-space: pre-wrap !important;">{{usuarioAMostrar.presentacion}}</p>
               </div>
               <div class="col-md-4" *ngIf="estaLogeado">
                 <div class="row" style="margin-bottom: 1%;"><div class="col-md-12"><i class="fas fa-user-edit ms-auto float-end" style="cursor: pointer;" title="Editar perfil" data-bs-toggle="modal" data-bs-target="#perfilModal" (click)="abrirFormularioPerfil()"></i></div></div>
@@ -328,7 +340,7 @@
             Sobre mi
           </div>
           <div class="card-body text-dark">
-            <p class="card-text">Aca tiene que ir una descripción</p>
+            <p class="card-text">{{usuarioAMostrar.descripcion}}</p>
           </div>
         </div>
       </div>
