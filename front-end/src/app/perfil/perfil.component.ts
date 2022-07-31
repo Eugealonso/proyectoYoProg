@@ -45,7 +45,8 @@ export class PerfilComponent implements OnInit {
   public errorArchivoPortada: string = "¡La foto es muy pesada! Tiene que ser como maximo de 7MB.";
   public mostrarErrorArchivo: boolean = false;
   public mostrarErrorArchivoPortada: boolean = false;
-
+  public show: boolean = false;
+  public recordame: boolean = false;
 
   constructor(private usuarioService: UsuarioService, private seccionService: SeccionService, private habilidadService: HabilidadService) {
     this.usuario = "";
@@ -58,6 +59,12 @@ export class PerfilComponent implements OnInit {
     this.refrescarSecciones();
     this.refrescarHabilidades();
     this.obtenerUsuario();
+    this.recordame = JSON.parse(localStorage.getItem('recordame'));
+    if(this.recordame) {
+      this.usuario = localStorage.getItem('usuario');
+      this.pass = localStorage.getItem('password');
+      this.loginEnviar();
+    }
   }
 
   loginEnviar(): void{
@@ -69,6 +76,9 @@ export class PerfilComponent implements OnInit {
         this.closeBtn.nativeElement.click();
         this.estaLogeado = true;
         this.usuarioLogeado = usuario;
+        localStorage.setItem('recordame', this.recordame.toString());
+        localStorage.setItem('usuario', this.usuario);
+        localStorage.setItem('password', this.pass);
       }
     })
   }
@@ -194,6 +204,7 @@ export class PerfilComponent implements OnInit {
       this.usuarioAMostrar = usuario;
       this.mostrarErrorArchivo = false;
       this.mostrarErrorArchivoPortada = false;
+      this.closePerfilBtn.nativeElement.click();
     });
   }
 
@@ -208,7 +219,6 @@ export class PerfilComponent implements OnInit {
       }
     } else {
       const reader = new FileReader();
-      let result;
   
       if(tipo === "perfil") {
         reader.addEventListener("load", this.procesarImagenCargada.bind(this, reader), false);
@@ -230,6 +240,10 @@ export class PerfilComponent implements OnInit {
 
   procesarImagenPortadaCargada(reader: FileReader): void {
     this.usuarioAModificar.fotoPortada = reader.result.toString();
+  }
+
+  mostrarPassword(){
+    this.show = !this.show;
   }
 }
 

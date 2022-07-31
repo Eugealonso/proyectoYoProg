@@ -8,8 +8,8 @@
             #Yo Programo
           </span>
           <span style="color:white;" class="p-2">
-            <a href="#" style="margin-right: 3px;"><i class="fab fa-linkedin fa-2x animacion"></i></a>
-            <a href="#" style="margin-right: 3px;"><i class="fab fa-github-square fa-2x animacion"></i></a>            
+            <a href="{{usuarioAMostrar.urlLinkedin}}" style="margin-right: 3px;"><i class="fab fa-linkedin fa-2x animacion"></i></a>
+            <a href="{{usuarioAMostrar.urlGithub}}" style="margin-right: 3px;"><i class="fab fa-github-square fa-2x animacion"></i></a>            
           </span>
           <span class="p-2">
             <button *ngIf="!estaLogeado" type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
@@ -48,7 +48,15 @@
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">Contraseña</label>
-                  <input #password="ngModel" name="pass" type="password" class="form-control" id="exampleInputPassword1" placeholder="Contraseña" [(ngModel)]="pass" (keyup.enter)="loginEnviar()" required>
+                  <div class="input-group">
+                    <input #password="ngModel" name="pass" [type]="show ? 'text' : 'password'" class="form-control" id="exampleInputPassword1" placeholder="Contraseña" [(ngModel)]="pass" (keyup.enter)="loginEnviar()" required>
+                    <div class="input-group-addon" (click)="mostrarPassword()">
+                      <span class="input-group-text" style="padding-bottom: 10px; padding-top: 10px;">
+                        <i *ngIf="show" class="fa fa-eye fa-1x"></i>
+                        <i *ngIf="!show" class="fa fa-eye-slash fa-1x"></i>
+                      </span>
+                    </div>
+                  </div>
                 </div>
                 <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
                   <div *ngIf="password.errors?.['required']">
@@ -56,7 +64,7 @@
                   </div>
                 </div>                
                 <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                  <input name="recordame" type="checkbox" class="form-check-input" id="exampleCheck1" [(ngModel)]="recordame">
                   <label class="form-check-label" for="exampleCheck1">Recordarme</label>
                 </div>      
                 <div *ngIf="mostrarErrorLogin" class="alert alert-danger">
@@ -297,6 +305,24 @@
               <div *ngIf="mostrarErrorArchivoPortada" class="alert alert-danger">
                   {{errorArchivoPortada}}
               </div>  
+              <div class="form-group">
+                <label for="urlLinkedin">URL de Linkedin</label>
+                <input #urlLinkedin="ngModel" name="urlLinkedin" type="text" class="form-control" id="urlLinkedin" placeholder="Ingrese url de Linkedin" [(ngModel)]="usuarioAModificar.urlLinkedin" required>
+              </div>
+              <div *ngIf="urlLinkedin.invalid && (urlLinkedin.dirty || urlLinkedin.touched)" class="alert alert-danger">
+                <div *ngIf="urlLinkedin.errors?.['required']">
+                  URL de Linkedin requerida
+                </div>
+              </div>    
+              <div class="form-group">
+                <label for="urlGithub">URL de Github</label>
+                <input #urlGithub="ngModel" name="urlGithub" type="text" class="form-control" id="urlGithub" placeholder="Ingrese url de Github" [(ngModel)]="usuarioAModificar.urlGithub" required>
+              </div>
+              <div *ngIf="urlGithub.invalid && (urlGithub.dirty || urlGithub.touched)" class="alert alert-danger">
+                <div *ngIf="urlGithub.errors?.['required']">
+                  URL de Github requerida
+                </div>
+              </div>       
             </form>
           </div>   
           <div class="modal-footer">

@@ -22,8 +22,12 @@ export class Usuario{
 	public secciones: Seccion[];
 
 	public habilidades: Habilidad[];
+    
+    public urlLinkedin: string;
 
-    constructor(idUsuario?: number, mail?: string, pass?: string, nombreApellido?: string, foto?:string, fotoPortada?: string, presentacion?:string, descripcion?: string, secciones?: Seccion[], habilidades?: Habilidad[]){
+    public urlGithub: string;
+
+    constructor(idUsuario?: number, mail?: string, pass?: string, nombreApellido?: string, foto?:string, fotoPortada?: string, presentacion?:string, descripcion?: string, secciones?: Seccion[], habilidades?: Habilidad[], urlLinkedin?: string, urlGithub?: string){
         this.idUsuario = idUsuario;
         this.mail = mail;
         this.pass = pass;
@@ -33,6 +37,8 @@ export class Usuario{
         this.presentacion = presentacion;
         this.descripcion = descripcion;
         this.secciones = secciones;
-        this.habilidades = habilidades;        
+        this.habilidades = habilidades;    
+        this.urlLinkedin = urlLinkedin;
+        this.urlGithub = urlGithub;    
     }
 }
