@@ -7,6 +7,8 @@ import { Seccion } from '../modelo/seccion';
 import { Usuario } from '../modelo/usuario';
 import { SeccionService } from '../seccion.service';
 import { UsuarioService } from '../usuario.service';
+import { MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { ProgressSpinnerDialogComponent } from '../progress-spinner-dialog/progress-spinner-dialog.component';
 
 
 @Component({
@@ -47,8 +49,12 @@ export class PerfilComponent implements OnInit {
   public mostrarErrorArchivoPortada: boolean = false;
   public show: boolean = false;
   public recordame: boolean = false;
+  public mostrarHabilidades: boolean = false;
+  public itemSeccionEnviado: boolean = false;
+  public mostrarPerfil: boolean = false;
+  public mostrarDescripcion: boolean = false;
 
-  constructor(private usuarioService: UsuarioService, private seccionService: SeccionService, private habilidadService: HabilidadService) {
+  constructor(private usuarioService: UsuarioService, private seccionService: SeccionService, private habilidadService: HabilidadService, private dialog: MatDialog) {
     this.usuario = "";
     this.pass = "";
     this.seccion = new Seccion();
@@ -68,6 +74,10 @@ export class PerfilComponent implements OnInit {
   }
 
   loginEnviar(): void{
+    let dialogRef: MatDialogRef<ProgressSpinnerDialogComponent> = this.dialog.open(ProgressSpinnerDialogComponent, {
+      panelClass: 'transparent',
+      disableClose: true
+    });
     var login: Login =new Login(this.usuario, this.pass);
     this.usuarioService.login(login).subscribe(usuario => {
       if(usuario == null) {
@@ -80,6 +90,7 @@ export class PerfilComponent implements OnInit {
         localStorage.setItem('usuario', this.usuario);
         localStorage.setItem('password', this.pass);
       }
+      dialogRef.close();
     })
   }
 
@@ -88,16 +99,30 @@ export class PerfilComponent implements OnInit {
   }
 
   agregarSeccion(): void {
+    let dialogRef: MatDialogRef<ProgressSpinnerDialogComponent> = this.dialog.open(ProgressSpinnerDialogComponent, {
+      panelClass: 'transparent',
+      disableClose: true
+    });
     this.seccionService.agregarSeccion(this.usuarioLogeado.idUsuario, this.seccion).subscribe(seccion => {
       this.closeSeccionBtn.nativeElement.click();
       this.refrescarSecciones();
       this.seccion = new Seccion();
+      this.closeItemSeccionBtn.nativeElement.click();
+      this.itemSeccion = new ItemSeccion();
+      this.itemSeccionEnviado = false;
+      this.closeEliminarItemBtn.nativeElement.click();
+      dialogRef.close();
     })
   }
 
   refrescarSecciones(): void {
+    let dialogRef: MatDialogRef<ProgressSpinnerDialogComponent> = this.dialog.open(ProgressSpinnerDialogComponent, {
+      panelClass: 'transparent',
+      disableClose: true
+    });
     this.seccionService.listarSecciones().subscribe(secciones => {
       this.secciones = secciones;
+      dialogRef.close();
     });
   }
 
@@ -117,6 +142,7 @@ export class PerfilComponent implements OnInit {
   }
 
   abrirFormularioItemSeccion(seccion: Seccion) {
+    console.log(seccion);
     this.seccion = seccion;
   }
 
@@ -125,10 +151,9 @@ export class PerfilComponent implements OnInit {
       var index = this.seccion.items.findIndex(x => x.idItemSeccion==this.itemSeccion.idItemSeccion);
       this.seccion.items.splice(index, 1);
     }
+    console.log(this.seccion);
     this.seccion.items.push(this.itemSeccion);
     this.agregarSeccion();
-    this.closeItemSeccionBtn.nativeElement.click();
-    this.itemSeccion = new ItemSeccion();
   }
 
   avisoEliminarItemSeccion(seccion: Seccion, itemSeccion: ItemSeccion) {
@@ -140,7 +165,6 @@ export class PerfilComponent implements OnInit {
     var index = this.seccion.items.findIndex(x => x.idItemSeccion==this.itemAEliminar.idItemSeccion);
     this.seccion.items.splice(index, 1);
     this.agregarSeccion();
-    this.closeEliminarItemBtn.nativeElement.click();
   }
 
   abrirFormularioEditarSeccion(seccion: Seccion, itemSeccion: ItemSeccion) {
@@ -151,8 +175,14 @@ export class PerfilComponent implements OnInit {
   }
 
   refrescarHabilidades(): void {
+    let dialogRef: MatDialogRef<ProgressSpinnerDialogComponent> = this.dialog.open(ProgressSpinnerDialogComponent, {
+      panelClass: 'transparent',
+      disableClose: true
+    });
     this.habilidadService.listarHabilidades('Hard').subscribe(habilidades => {
       this.habilidadesHard = habilidades;
+      this.mostrarHabilidades = true;
+      dialogRef.close();
     });
     this.habilidadService.listarHabilidades('Soft').subscribe(habilidades => {
       this.habilidadesSoft = habilidades;
@@ -160,10 +190,15 @@ export class PerfilComponent implements OnInit {
   }
 
   agregarHabilidad(): void {
+    let dialogRef: MatDialogRef<ProgressSpinnerDialogComponent> = this.dialog.open(ProgressSpinnerDialogComponent, {
+      panelClass: 'transparent',
+      disableClose: true
+    });
     this.habilidadService.agregarHabilidad(this.usuarioLogeado.idUsuario, this.habilidad).subscribe(habilidad => {
       this.closeHabilidadBtn.nativeElement.click();
       this.refrescarHabilidades();
       this.habilidad = new Habilidad();
+      dialogRef.close();
     })
   }
 
@@ -193,18 +228,22 @@ export class PerfilComponent implements OnInit {
   obtenerUsuario(): void {
     this.usuarioService.obtenerUsuario(1).subscribe(usuario => {
       this.usuarioAMostrar = usuario;
-      //this.usuarioAMostrar.presentacion = this.usuarioAMostrar.presentacion.replace('\\n', '<br>');
-      console.log(this.usuarioAMostrar);
+      this.mostrarPerfil = true;
+      this.mostrarDescripcion = true;
     });
   }
 
   editarUsuario(): void {
-    console.log(this.usuarioAModificar);
+    let dialogRef: MatDialogRef<ProgressSpinnerDialogComponent> = this.dialog.open(ProgressSpinnerDialogComponent, {
+      panelClass: 'transparent',
+      disableClose: true
+    });
     this.usuarioService.editarUsuario(this.usuarioAModificar).subscribe(usuario => {
       this.usuarioAMostrar = usuario;
       this.mostrarErrorArchivo = false;
       this.mostrarErrorArchivoPortada = false;
       this.closePerfilBtn.nativeElement.click();
+      dialogRef.close();
     });
   }
 

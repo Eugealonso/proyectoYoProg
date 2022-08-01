@@ -7,17 +7,25 @@ import { AppComponent } from './app.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { HttpClientModule } from '@angular/common/http';
 import { UsuarioService } from './usuario.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ProgressSpinnerDialogComponent } from './progress-spinner-dialog/progress-spinner-dialog.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PerfilComponent
+    PerfilComponent,
+    ProgressSpinnerDialogComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatProgressSpinnerModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]
